@@ -6,23 +6,30 @@
     <title>Collections | Alamanda Inspire</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #c5a059; --dark: #1a1c1a; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #fafafa; }
-        header { padding: 30px 10%; background: white; display: flex; justify-content: space-between; border-bottom: 1px solid #eee; }
-        .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 12px; letter-spacing: 1px; }
-        
-        .container { padding: 80px 10%; }
-        .product-header { margin-bottom: 60px; }
-        .product-header h1 { font-family: 'Playfair Display', serif; font-size: 48px; margin-bottom: 10px; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 40px; }
-        .item { background: white; padding: 20px; transition: 0.3s; }
-        .item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        .item img { width: 100%; height: 450px; object-fit: cover; background: #f0f0f0; margin-bottom: 20px; }
-        .item h3 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 5px; }
-        .item span { color: var(--gold); font-size: 13px; font-weight: 700; letter-spacing: 1px; }
-    </style>
+    /* Ganti CSS Container & Grid Anda */
+    header { padding: 20px 5%; align-items: center; }
+    
+    .container { padding: 60px 5%; }
+    
+    .grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Sangat penting untuk mobile */
+        gap: 30px; 
+    }
+
+    .item img { 
+        width: 100%; 
+        height: 350px; /* Sedikit diperpendek agar tidak terlalu panjang di HP */
+        object-fit: cover; 
+    }
+
+    @media (max-width: 768px) {
+        .product-header h1 { font-size: 32px; }
+        .nav-links { gap: 15px; }
+        .nav-links a { font-size: 10px; }
+        .item img { height: 300px; }
+    }
+</style>
 </head>
 <body>
     <header>
@@ -86,4 +93,5 @@
     window.onload = loadProducts;
 </script>
 </body>
+
 </html>
