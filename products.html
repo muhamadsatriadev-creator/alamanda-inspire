@@ -4,32 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collections | Alamanda Inspire</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-    /* Ganti CSS Container & Grid Anda */
-    header { padding: 20px 5%; align-items: center; }
-    
-    .container { padding: 60px 5%; }
-    
-    .grid { 
-        display: grid; 
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Sangat penting untuk mobile */
-        gap: 30px; 
-    }
+        :root { --gold: #c5a059; --dark: #1a1c1a; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; background: #fafafa; }
+        header { padding: 20px 5%; background: white; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; flex-wrap: wrap; gap: 15px; }
+        
+        .nav-links { display: flex; gap: 20px; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 11px; }
 
-    .item img { 
-        width: 100%; 
-        height: 350px; /* Sedikit diperpendek agar tidak terlalu panjang di HP */
-        object-fit: cover; 
-    }
+        .container { padding: 40px 5%; }
+        .product-header { text-align: center; margin-bottom: 50px; }
+        .product-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 42px); }
 
-    @media (max-width: 768px) {
-        .product-header h1 { font-size: 32px; }
-        .nav-links { gap: 15px; }
-        .nav-links a { font-size: 10px; }
-        .item img { height: 300px; }
-    }
-</style>
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+            gap: 25px; 
+        }
+        .item { background: white; padding: 15px; border: 1px solid #eee; transition: 0.3s; }
+        .item img { width: 100%; aspect-ratio: 3/4; object-fit: cover; margin-bottom: 15px; }
+        .item h3 { font-family: 'Playfair Display', serif; font-size: 18px; }
+        .item span { color: var(--gold); font-size: 11px; font-weight: 700; }
+
+        @media (max-width: 600px) {
+            header { justify-content: center; }
+            .nav-links { width: 100%; justify-content: center; }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -42,56 +44,33 @@
     </header>
 
     <div class="container">
-    <div class="product-header">
-        <h1>The Collection</h1>
-        <p>Specimens of Braided Dracaena Compacta from Sukabumi.</p>
+        <div class="product-header">
+            <h1>The Collection</h1>
+            <p>Specimens of Braided Dracaena Compacta.</p>
+        </div>
+        <div class="grid" id="productGrid"></div>
     </div>
 
-    <div class="grid" id="productGrid"></div>
-</div>
-
-<script>
-    const productGrid = document.getElementById('productGrid');
-    const folder = 'assets/products/';
-    const prefix = 'prod-';
-    const extension = '.jpeg';
-    
-    // Fungsi untuk memuat gambar secara otomatis
-    function loadProducts() {
-        let i = 1;
-        
-        function tryNext() {
-            const imgPath = `${folder}${prefix}${i}${extension}`;
-            const img = new Image();
-            
-            img.onload = function() {
-                // Jika gambar ketemu, buat elemen HTML-nya
-                const item = document.createElement('div');
-                item.className = 'item';
-                item.innerHTML = `
-                    <img src="${imgPath}" alt="Product ${i}">
-                    <span>PREMIUM SERIES</span>
-                    <h3>Dracaena Braid #${i}</h3>
-                    <p style="font-size: 14px; color: #777;">High-quality specimen from our latest harvest.</p>
-                `;
-                productGrid.appendChild(item);
-                i++;
-                tryNext(); // Coba ambil gambar urutan berikutnya
-            };
-            
-            img.onerror = function() {
-                // Jika error (gambar tidak ada), berhenti loop
-                console.log("Total products loaded: " + (i-1));
-            };
-            
-            img.src = imgPath;
+    <script>
+        const productGrid = document.getElementById('productGrid');
+        const folder = 'assets/products/';
+        function loadProducts() {
+            let i = 1;
+            function tryNext() {
+                const imgPath = `${folder}prod-${i}.jpeg`;
+                const img = new Image();
+                img.onload = function() {
+                    const item = document.createElement('div');
+                    item.className = 'item';
+                    item.innerHTML = `<img src="${imgPath}"><span>PREMIUM SERIES</span><h3>Dracaena Braid #${i}</h3>`;
+                    productGrid.appendChild(item);
+                    i++; tryNext();
+                };
+                img.src = imgPath;
+            }
+            tryNext();
         }
-        
-        tryNext();
-    }
-
-    window.onload = loadProducts;
-</script>
+        window.onload = loadProducts;
+    </script>
 </body>
-
 </html>
