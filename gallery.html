@@ -6,75 +6,54 @@
     <title>Gallery | Alamanda Inspire</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Plus+Jakarta+Sans:wght@300&display=swap" rel="stylesheet">
     <style>
-    /* Ganti bagian .gallery-grid Anda dengan ini */
-    .gallery-grid { 
-        display: grid; 
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* OTOMATIS: Desktop 3-4 kolom, HP 1 kolom */
-        gap: 10px; 
-        padding: 10px; 
-    }
-    
-    .gallery-item { height: 50vh; overflow: hidden; position: relative; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; margin:0; background: #111; color: white; }
+        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; background: #000; }
+        .logo { font-family: 'Playfair Display'; font-size: 20px; color: white; text-decoration: none; font-weight: 700; }
+        
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 10px; padding: 10px; 
+        }
+        .gallery-item { height: 400px; overflow: hidden; position: relative; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%); transition: 0.5s; }
+        .gallery-item:hover img { filter: grayscale(0%); transform: scale(1.05); }
+        .overlay-text { position: absolute; bottom: 20px; left: 20px; font-family: 'Playfair Display'; font-size: 18px; }
 
-    /* Hapus aturan nth-child(2) yang bikin grid berantakan di mobile */
-    @media (min-width: 992px) {
-        .gallery-item:nth-child(2) { grid-column: span 2; }
-    }
-
-    @media (max-width: 768px) {
-        header { padding: 20px 5%; flex-direction: column; gap: 10px; }
-        .gallery-item { height: 40vh; }
-        .overlay-text { font-size: 18px; bottom: 15px; left: 15px; }
-    }
-</style>
+        @media (max-width: 600px) {
+            header { justify-content: center; }
+            .gallery-item { height: 300px; }
+        }
+    </style>
 </head>
 <body>
     <header>
         <a href="index.html" class="logo">ALAMANDA</a>
-        <nav>
-            <a href="index.html" style="color:white; margin-right: 20px; text-decoration: none; font-size: 12px; letter-spacing: 2px;">BACK TO HOME</a>
-        </nav>
+        <a href="index.html" style="color:white; text-decoration:none; font-size:11px; letter-spacing:1px;">BACK TO HOME</a>
     </header>
 
     <div class="gallery-grid" id="galleryContainer"></div>
 
-<script>
-    const galleryContainer = document.getElementById('galleryContainer');
-    const folder = 'assets/gallery/';
-    const prefix = 'photo-';
-    const extension = '.jpeg';
-
-    function loadGallery() {
-        let i = 1;
-
-        function tryNext() {
-            const imgPath = `${folder}${prefix}${i}${extension}`;
-            const img = new Image();
-
-            img.onload = function() {
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.innerHTML = `
-                    <img src="${imgPath}" alt="Gallery ${i}">
-                    <div class="overlay-text">Visual #${i}</div>
-                `;
-                galleryContainer.appendChild(item);
-                i++;
-                tryNext();
-            };
-
-            img.onerror = function() {
-                console.log("Total gallery photos loaded: " + (i-1));
-            };
-
-            img.src = imgPath;
+    <script>
+        const galleryContainer = document.getElementById('galleryContainer');
+        const folder = 'assets/gallery/';
+        function loadGallery() {
+            let i = 1;
+            function tryNext() {
+                const imgPath = `${folder}photo-${i}.jpeg`;
+                const img = new Image();
+                img.onload = function() {
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.innerHTML = `<img src="${imgPath}"><div class="overlay-text">Visual #${i}</div>`;
+                    galleryContainer.appendChild(item);
+                    i++; tryNext();
+                };
+                img.src = imgPath;
+            }
+            tryNext();
         }
-
-        tryNext();
-    }
-
-    window.onload = loadGallery;
-</script>
+        window.onload = loadGallery;
+    </script>
 </body>
-
 </html>
